@@ -14,15 +14,14 @@ class SociateServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $configPath = realpath(__DIR__ . '/../config/sociate.php');
-
-        $this->publishes($configPath, 'config');
+        //
     }
 
     public function register()
     {
-        $configPath = realpath(__DIR__ . '/../config/sociate.php');
+        $configPath = __DIR__.'/config/sociate.php';
         $this->mergeConfigFrom($configPath, 'sociate');
+        $this->publishes([$configPath => config_path('sociate.php')]);
 
         $this->app->singleton('sociate', function () {
             return new Sociate;
