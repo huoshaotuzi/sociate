@@ -21,7 +21,7 @@ class Qq extends Handler
     {
         $code = request('code');
         $response = $this->getAccessToken($code);
-        $me = $this->getOpenId();
+        $me = $this->getOpenId($response['access_token']);
 
         $params = [
             'access_token' => $response['access_token'],
