@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Huoshaotuzi\\Sociate": "src/"
+            "Huoshaotuzi\\Sociate\\": "src/"
         }
     }
 }
