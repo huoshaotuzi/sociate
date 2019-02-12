@@ -37,16 +37,60 @@ WEIBO_REDIRECT=
 以上,配置完成。
 
 # 基本方法
+`routes/web.php` 添加授权回调页路由,授权回调页的地址需要与你的应用配置一致,否则会提示 `redirect_uri` 错误:
+```
+// 我的回调页地址 http://xxx.com/auth/baidu
+Route::namespace('Oauth')->prefix('auth')->group(function () {
+    Route::get('/qq', 'OauthController@qq');
+    Route::get('/weibo', 'OauthController@weibo');
+    Route::get('/baidu', 'OauthController@baidu');
+});
+```
+
+创建第三方登录控制器:
+```
+php artisan make:controller Oauth/OauthController
+```
+
+控制器添加代码:
+```
+public function qq()
+{
+    $driver = app('sociate')->driver('qq');
+    $response = $driver->getAccessToken();
+    $info = $driver->getUserInfo($response);
+
+    dd($info);
+
+}
+public function weibo()
+{
+    $driver = app('sociate')->driver('qq');
+    $response = $driver->getAccessToken();
+    $info = $driver->getUserInfo($response);
+
+    dd($info);
+}
+public function baidu()
+{
+    $driver = app('sociate')->driver('baidu');
+    $response = $driver->getAccessToken();
+    $info = $driver->getUserInfo($response);
+
+    dd($info);
+}
+```
+
 生成第三方登录引导链接:
 ```
-$loginUrl = app('sociate')->driver('qq')->getLoginUrl();
+$loginUrl = app('sociate')->driver('baidu')->getLoginUrl();
 ```
 `driver()` 方法接收第三方平台参数,该值可以是 `qq`、`weibo`、`baidu`,不区分大小写。
 `getLoginUrl($state)` 方法支持一个参数 `state` 作为返回参数，授权成功后该值会原样返回,可以作为重定向到登录前页面的地址,不传默认为空。
 
 可以直接在视图的第三方登录按钮中,使用如下代码:
 ```
-<a href="{{ app('sociate')->driver('qq')->getLoginUrl(url()->full()) }}">QQ登录</a>
+<a href="{{ app('sociate')->driver('baidu')->getLoginUrl(url()->full()) }}">百度登录</a>
 ```
 在登录成功之后都可以使用 `request('state')` 获取到登录前的页面,再进行重定向跳转,增加用户体验。
 
@@ -75,7 +119,7 @@ class OauthController extends Controller
         $sociate = new Socialite();
         $driver = $sociate->driver('qq');
         $accessToken = $driver->getAccessToken();
-        $user = $driver('qq')->getUserInfo($accessToken);
+        $user = $driver->getUserInfo($accessToken);
         dd($user);
     }
 }

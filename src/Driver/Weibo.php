@@ -13,14 +13,14 @@ class Weibo extends Handler
     protected $userInfoUrl = 'https://api.weibo.com/2/users/show.json';
 
     /**
-     * 获取用户信息.
+     * 获取用户资料.
+     *
+     * @param array $response
      *
      * @return array
      */
-    public function getUser()
+    public function getUser($response)
     {
-        $code = request('code');
-        $response = $this->getAccessToken($code);
         $params = [
             'access_token' => $response['access_token'],
             'uid' => $response['uid'],

@@ -86,13 +86,13 @@ class Handler
     /**
      * 获取用户信息.
      *
-     * @param string $accessToken
+     * @param array $response
      *
      * @return array
      */
-    public function getUser($accessToken)
+    public function getUser($response)
     {
-        $params = ['access_token' => $accessToken];
+        $params = ['access_token' => $response['access_token']];
 
         return $this->_post($this->userInfoUrl, $params);
     }
