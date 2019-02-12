@@ -64,11 +64,11 @@ class Sociate
      * 获取平台引导登录链接
      * @return string
      */
-    public function getLoginUrl()
+    public function getLoginUrl($state = '')
     {
         $this->_checkDriver();
 
-        return $this->_class->getAuthoriteCodeUrl();
+        return $this->_class->getAuthoriteCodeUrl($state);
     }
 
     /**
