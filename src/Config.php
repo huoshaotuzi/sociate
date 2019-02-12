@@ -78,7 +78,7 @@ class Config
      */
     private function _initParams($type)
     {
-        $configs = config("services.{$type}");
+        $configs = config("sociate.{$type}");
 
         if (empty($configs)) {
             throw new ConfigException("{$type} invalid parameter");
