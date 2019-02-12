@@ -1,0 +1,22 @@
+{
+    "name": "huoshaotuzi/sociate",
+    "description": "基于Laravel开发的第三方登录插件，支持QQ、新浪微博、百度登录。",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Huo Tu",
+            "email": "huoshaotuzi@icloud.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Huoshaotuzi\\Sociate": "src/"
+        }
+    }
+}
