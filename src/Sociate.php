@@ -94,15 +94,15 @@ class Sociate
     /**
      * 获取平台用户信息.
      *
-     * @param string $accessToken
+     * @param string $response
      *
      * @return array
      */
-    public function getUserInfo($accessToken)
+    public function getUserInfo($response)
     {
         $this->_checkDriver();
 
-        return $this->_class->getUser($accessToken);
+        return $this->_class->getUser($response);
     }
 
     /**
