@@ -32,6 +32,8 @@ class Sociate
      * 设置平台.
      *
      * @param string $driver
+     *
+     * @return object
      */
     public function driver($driver)
     {
@@ -78,15 +80,29 @@ class Sociate
     }
 
     /**
-     * 获取平台用户信息.
+     * 获取access token.
      *
-     * @return
+     * @return array
      */
-    public function getUserInfo()
+    public function getAccessToken()
     {
         $this->_checkDriver();
 
-        return $this->_class->getUser();
+        return $this->_class->getAccessToken();
+    }
+
+    /**
+     * 获取平台用户信息.
+     *
+     * @param string $accessToken
+     *
+     * @return array
+     */
+    public function getUserInfo($accessToken)
+    {
+        $this->_checkDriver();
+
+        return $this->_class->getUser($accessToken);
     }
 
     /**

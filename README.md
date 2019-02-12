@@ -73,7 +73,9 @@ class OauthController extends Controller
     public function qq()
     {
         $sociate = new Socialite();
-        $user = $sociate->driver('qq')->getUserInfo();
+        $driver = $sociate->driver('qq');
+        $accessToken = $driver->getAccessToken();
+        $user = $driver('qq')->getUserInfo($accessToken);
         dd($user);
     }
 }
@@ -89,7 +91,9 @@ class OauthController extends Controller
 {
     public function qq()
     {
-        $user = app('sociate')->driver('qq')->getUserInfo();
+        $driver = app('sociate')->driver('qq');
+        $accessToken = $driver->getAccessToken();
+        $user = $driver->getUserInfo($accessToken);
         dd($user);
     }
 }
