@@ -50,6 +50,15 @@ class Handler
     }
 
     /**
+     * 获取当前平台配置参数
+     * @return Object
+     */
+    public function getConfig()
+    {
+        return $this->_config;
+    }
+
+    /**
      * 获取登录链接
      * @param string $state 自定义字段
      * @return string
@@ -68,7 +77,7 @@ class Handler
 
     /**
      * 获取用户信息
-     * @return obj
+     * @return array
      */
     public function getUser()
     {

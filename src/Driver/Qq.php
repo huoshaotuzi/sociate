@@ -5,12 +5,13 @@ namespace Huoshaotuzi\Sociate\Driver;
 use Huoshaotuzi\Sociate\Handler;
 use GuzzleHttp\Client;
 
-class Weibo extends Handler
+class Qq extends Handler
 {
-    protected $name = 'weibo';
-    protected $authoriteCodeUrl = 'https://api.weibo.com/oauth2/authorize';
-    protected $authoriteTokenUrl = 'https://api.weibo.com/oauth2/access_token';
-    protected $userInfoUrl = 'https://api.weibo.com/2/users/show.json';
+    protected $name = 'qq';
+    protected $authoriteCodeUrl = 'https://graph.qq.com/oauth2.0/authorize';
+    protected $authoriteTokenUrl = 'https://graph.qq.com/oauth2.0/token';
+    protected $userOpenIdUrl = 'https://graph.qq.com/oauth2.0/me';
+    protected $userInfoUrl = 'https://graph.qq.com/user/get_user_info';
 
     /**
      * 获取用户信息
@@ -20,12 +21,29 @@ class Weibo extends Handler
     {
         $code = request('code');
         $response = $this->getAccessToken($code);
+        $me = $this->getOpenId();
+
         $params = [
             'access_token' => $response['access_token'],
-            'uid' => $response['uid'],
+            'openid' => $me['openid'],
         ];
 
         return $this->_get($this->userInfoUrl, $params);
+    }
+
+    /**
+     * 获取openid
+     *
+     * @param string $token
+     * @return array
+     */
+    public function getOpenId($token)
+    {
+        $params = [
+            'access_token' => $token,
+        ];
+
+        return $this->_get($this->userOpenIdUrl, $params);
     }
 
     private function _get($url, $params)

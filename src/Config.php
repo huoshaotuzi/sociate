@@ -7,7 +7,7 @@ use Huoshaotuzi\Sociate\Exception\ConfigException;
 class Config
 {
     /**
-     * 应用ID
+     * 应用key
      * @var string
      */
     private $_clientId;
@@ -29,27 +29,59 @@ class Config
         $this->_initParams($type);
     }
 
+    /**
+     * 返回数组格式
+     * @return array
+     */
+    public function toArray()
+    {
+        $configs = [
+            'cliend_id' => $this->_clientId,
+            'client_scret' => $this->_clientSecret,
+            'redirect' => $this->_redirect,
+        ];
+
+        return $configs;
+    }
+
+    /**
+     * 获取client_id
+     * @return string
+     */
     public function getClientId()
     {
         return $this->_clientId;
     }
 
+    /**
+     * 获取secret
+     * @return string
+     */
     public function getClientSecret()
     {
         return $this->_clientSecret;
     }
 
+    /**
+     * 获取redirect
+     * @return string
+     */
     public function getRedirect()
     {
         return $this->_redirect;
     }
 
+    /**
+     * 初始化配置参数
+     * @param string $type
+     * @return void
+     */
     private function _initParams($type)
     {
         $configs = config("services.{$type}");
 
         if (empty($configs)) {
-            throw new ConfigException();
+            throw new ConfigException("{$type} invalid parameter");
         }
 
         $this->_clientId = $configs['client_id'];
