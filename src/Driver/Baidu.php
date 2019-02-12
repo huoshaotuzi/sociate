@@ -3,7 +3,6 @@
 namespace Huoshaotuzi\Sociate\Driver;
 
 use Huoshaotuzi\Sociate\Handler;
-use GuzzleHttp\Client;
 
 class Baidu extends Handler
 {

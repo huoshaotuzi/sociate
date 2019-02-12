@@ -7,19 +7,22 @@ use Huoshaotuzi\Sociate\Exception\ConfigException;
 class Config
 {
     /**
-     * 应用key
+     * 应用key.
+     *
      * @var string
      */
     private $_clientId;
 
     /**
-     * 应用secret
+     * 应用secret.
+     *
      * @var string
      */
     private $_clientSecret;
 
     /**
      * 授权回调页地址
+     *
      * @var string
      */
     private $_redirect;
@@ -30,7 +33,8 @@ class Config
     }
 
     /**
-     * 返回数组格式
+     * 返回数组格式.
+     *
      * @return array
      */
     public function toArray()
@@ -45,7 +49,8 @@ class Config
     }
 
     /**
-     * 获取client_id
+     * 获取client_id.
+     *
      * @return string
      */
     public function getClientId()
@@ -54,7 +59,8 @@ class Config
     }
 
     /**
-     * 获取secret
+     * 获取secret.
+     *
      * @return string
      */
     public function getClientSecret()
@@ -63,7 +69,8 @@ class Config
     }
 
     /**
-     * 获取redirect
+     * 获取redirect.
+     *
      * @return string
      */
     public function getRedirect()
@@ -72,16 +79,16 @@ class Config
     }
 
     /**
-     * 初始化配置参数
+     * 初始化配置参数.
+     *
      * @param string $type
-     * @return void
      */
     private function _initParams($type)
     {
         $configs = config("sociate.{$type}");
 
         if (empty($configs)) {
-            throw new ConfigException("{$type} invalid parameter");
+            throw new ConfigException("{$type} 参数获取失败");
         }
 
         $this->_clientId = $configs['client_id'];

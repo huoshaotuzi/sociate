@@ -2,43 +2,48 @@
 
 namespace Huoshaotuzi\Sociate;
 
-use Huoshaotuzi\Sociate\Config;
 use GuzzleHttp\Client;
 
 class Handler
 {
     /**
-     * 参数配置
-     * @var Object
+     * 参数配置.
+     *
+     * @var object
      */
     private $_config;
 
     /**
-     * http请求类
-     * @var Object
+     * http请求类.
+     *
+     * @var object
      */
     private $_client;
 
     /**
-     * 平台名称
+     * 平台名称.
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * 引导登录链接
+     * 引导登录链接.
+     *
      * @var string
      */
     protected $authoriteCodeUrl;
 
     /**
-     * access token api
+     * access token api.
+     *
      * @var string
      */
     protected $authoriteTokenUrl;
 
     /**
-     * 用户资料api
+     * 用户资料api.
+     *
      * @var string
      */
     protected $userInfoUrl;
@@ -50,8 +55,9 @@ class Handler
     }
 
     /**
-     * 获取当前平台配置参数
-     * @return Object
+     * 获取当前平台配置参数.
+     *
+     * @return object
      */
     public function getConfig()
     {
@@ -59,8 +65,10 @@ class Handler
     }
 
     /**
-     * 获取登录链接
+     * 获取登录链接.
+     *
      * @param string $state 自定义字段
+     *
      * @return string
      */
     public function getAuthoriteCodeUrl($state = '')
@@ -72,11 +80,12 @@ class Handler
             'state' => $state,
         ];
 
-        return $this->authoriteCodeUrl . '?' . http_build_query($params);
+        return $this->authoriteCodeUrl.'?'.http_build_query($params);
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
+     *
      * @return array
      */
     public function getUser()
@@ -88,7 +97,8 @@ class Handler
     }
 
     /**
-     * 获取access token
+     * 获取access token.
+     *
      * @return array
      */
     public function getAccessToken()
@@ -106,9 +116,11 @@ class Handler
     }
 
     /**
-     * 基础请求方法
+     * 基础请求方法.
+     *
      * @param string $url
-     * @param array $params
+     * @param array  $params
+     *
      * @return array
      */
     private function _post($url, $params)

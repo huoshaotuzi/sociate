@@ -1,38 +1,41 @@
 <?php
+
 namespace Huoshaotuzi\Sociate;
 
-use Huoshaotuzi\Sociate\Config;
-use Huoshaotuzi\Sociate\Exception\DriverException;
 use Huoshaotuzi\Sociate\Exception\DriverNotSupportException;
 use Huoshaotuzi\Sociate\Exception\DriverNullException;
 
 class Sociate
 {
     /**
-     * 支持的平台类型
+     * 支持的平台类型.
+     *
      * @var array
      */
     private $_support = ['qq', 'weibo', 'baidu'];
 
     /**
-     * 平台名称
+     * 平台名称.
+     *
      * @var string
      */
     private $_driver;
 
     /**
      * 类对象
+     *
      * @var \Huoshaotuzi\Sociate\Handler
      */
     private $_class;
 
     /**
-     * 设置平台
+     * 设置平台.
+     *
      * @param string $driver
      */
     public function driver($driver)
     {
-        $className = 'Huoshaotuzi\\Sociate\\Driver\\' . ucwords(strtolower($driver));
+        $className = 'Huoshaotuzi\\Sociate\\Driver\\'.ucwords(strtolower($driver));
         $this->_driver = $driver;
 
         $this->_checkDriverSupport();
@@ -43,7 +46,8 @@ class Sociate
     }
 
     /**
-     * 获取支持的所有平台
+     * 获取支持的所有平台.
+     *
      * @return array
      */
     public function getSupport()
@@ -52,7 +56,8 @@ class Sociate
     }
 
     /**
-     * 获取当前平台名称
+     * 获取当前平台名称.
+     *
      * @return string
      */
     public function getDriver()
@@ -61,7 +66,8 @@ class Sociate
     }
 
     /**
-     * 获取平台引导登录链接
+     * 获取平台引导登录链接.
+     *
      * @return string
      */
     public function getLoginUrl($state = '')
@@ -72,7 +78,8 @@ class Sociate
     }
 
     /**
-     * 获取平台用户信息
+     * 获取平台用户信息.
+     *
      * @return
      */
     public function getUserInfo()
@@ -83,13 +90,14 @@ class Sociate
     }
 
     /**
-     * 检验driver参数
+     * 检验driver参数.
+     *
      * @throws Exception
      */
     private function _checkDriver()
     {
         if (empty($this->_driver)) {
-            throw new DriverNullException('Driver can not be null');
+            throw new DriverNullException('未设置平台,请先调用driver()方法传入平台参数');
         }
 
         $this->_checkDriverSupport();
@@ -97,6 +105,7 @@ class Sociate
 
     /**
      * 检验平台是否支持
+     *
      * @throws Exception
      */
     private function _checkDriverSupport()
@@ -104,7 +113,7 @@ class Sociate
         $driver = strtolower($this->_driver);
 
         if (!in_array($driver, $this->_support)) {
-            throw new DriverNotSupportException("Driver {$driver} are not support");
+            throw new DriverNotSupportException("暂不支持 {$driver} 平台,使用getSupport()方法可查询所有支持平台");
         }
     }
 }

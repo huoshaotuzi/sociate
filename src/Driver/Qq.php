@@ -2,8 +2,8 @@
 
 namespace Huoshaotuzi\Sociate\Driver;
 
-use Huoshaotuzi\Sociate\Handler;
 use GuzzleHttp\Client;
+use Huoshaotuzi\Sociate\Handler;
 
 class Qq extends Handler
 {
@@ -14,7 +14,8 @@ class Qq extends Handler
     protected $userInfoUrl = 'https://graph.qq.com/user/get_user_info';
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
+     *
      * @return array
      */
     public function getUser()
@@ -32,9 +33,10 @@ class Qq extends Handler
     }
 
     /**
-     * 获取openid
+     * 获取openid.
      *
      * @param string $token
+     *
      * @return array
      */
     public function getOpenId($token)

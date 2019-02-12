@@ -2,8 +2,8 @@
 
 namespace Huoshaotuzi\Sociate\Driver;
 
-use Huoshaotuzi\Sociate\Handler;
 use GuzzleHttp\Client;
+use Huoshaotuzi\Sociate\Handler;
 
 class Weibo extends Handler
 {
@@ -13,7 +13,8 @@ class Weibo extends Handler
     protected $userInfoUrl = 'https://api.weibo.com/2/users/show.json';
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
+     *
      * @return array
      */
     public function getUser()
