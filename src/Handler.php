@@ -7,7 +7,16 @@ use GuzzleHttp\Client;
 
 class Handler
 {
+    /**
+     * 参数配置
+     * @var Object
+     */
     private $_config;
+
+    /**
+     * http请求类
+     * @var Object
+     */
     private $_client;
 
     /**
@@ -63,15 +72,19 @@ class Handler
      */
     public function getUser()
     {
-        $code = request('code');
-        $token = $this->_getAccessToken($code);
-        $params = ['access_token' => $token];
+        $response = $this->getAccessToken();
+        $params = ['access_token' => $response['access_token']];
 
         return $this->_post($this->userInfoUrl, $params);
     }
 
-    private function _getAccessToken($code)
+    /**
+     * 获取access token
+     * @return array
+     */
+    public function getAccessToken()
     {
+        $code = request('code');
         $params = [
             'grant_type' => 'authorization_code',
             'code' => $code,
@@ -83,13 +96,21 @@ class Handler
         return $this->_post($this->authoriteTokenUrl, $params);
     }
 
+    /**
+     * 基础请求方法
+     * @param string $url
+     * @param array $params
+     * @return array
+     */
     private function _post($url, $params)
     {
-        $response = $this->_client->post($url, [
+        $options = [
             'query' => $params,
             'verify' => false,
-        ]);
+        ];
 
-        return $response->getBody()->getContents();
+        $response = $this->_client->post($url, $options)->getBody()->getContents();
+
+        return json_decode($response, true);
     }
 }

@@ -79,7 +79,7 @@ class Sociate
     {
         $this->_checkDriver();
 
-        return $this->_class->getUserInfo();
+        return $this->_class->getUser();
     }
 
     /**
