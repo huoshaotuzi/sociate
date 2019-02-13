@@ -3,22 +3,15 @@
 namespace Huoshaotuzi\Sociate\Driver;
 
 use GuzzleHttp\Client;
-use Huoshaotuzi\Sociate\Handler;
+use Huoshaotuzi\Sociate\Driver;
 
-class Weibo extends Handler
+class Weibo extends Driver
 {
     protected $name = 'weibo';
     protected $authoriteCodeUrl = 'https://api.weibo.com/oauth2/authorize';
     protected $authoriteTokenUrl = 'https://api.weibo.com/oauth2/access_token';
     protected $userInfoUrl = 'https://api.weibo.com/2/users/show.json';
 
-    /**
-     * 获取用户资料.
-     *
-     * @param array $response
-     *
-     * @return array
-     */
     public function getUser($response)
     {
         $params = [
@@ -26,19 +19,20 @@ class Weibo extends Handler
             'uid' => $response['uid'],
         ];
 
-        return $this->_get($this->userInfoUrl, $params);
+        return $this->request('get', $this->userInfoUrl, $params);
     }
 
-    private function _get($url, $params)
+    public function getAccessToken()
     {
-        $options = [
-            'query' => $params,
-            'verify' => false,
+        $code = request('code');
+        $params = [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'client_id' => $this->config->getClientId(),
+            'client_secret' => $this->config->getClientSecret(),
+            'redirect_uri' => $this->config->getRedirect(),
         ];
 
-        $client = new Client();
-        $response = $client->get($url, $options)->getBody()->getContents();
-
-        return json_decode($response, true);
+        return $this->request('post', $this->authoriteTokenUrl, $params);
     }
 }

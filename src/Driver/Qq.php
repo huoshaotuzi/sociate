@@ -3,15 +3,20 @@
 namespace Huoshaotuzi\Sociate\Driver;
 
 use GuzzleHttp\Client;
-use Huoshaotuzi\Sociate\Handler;
+use Huoshaotuzi\Sociate\Driver;
 
-class Qq extends Handler
+class Qq extends Driver
 {
     protected $name = 'qq';
     protected $authoriteCodeUrl = 'https://graph.qq.com/oauth2.0/authorize';
     protected $authoriteTokenUrl = 'https://graph.qq.com/oauth2.0/token';
     protected $userOpenIdUrl = 'https://graph.qq.com/oauth2.0/me';
     protected $userInfoUrl = 'https://graph.qq.com/user/get_user_info';
+
+    public function __construct()
+    {
+        $this->config = new Config($this->name);
+    }
 
     /**
      * 获取用户信息.
@@ -25,10 +30,10 @@ class Qq extends Handler
         $params = [
             'access_token' => $response['access_token'],
             'openid' => $me['openid'],
-            'oauth_consumer_key' => $this->getConfig()->getClientId(),
+            'oauth_consumer_key' => $this->config->getClientId(),
         ];
 
-        $response = $this->_get($this->userInfoUrl, $params);
+        $response = $this->request('get', $this->userInfoUrl, $params);
         $info = json_decode($response, true);
         $info['openid'] = $me['openid'];
 
@@ -49,7 +54,7 @@ class Qq extends Handler
             'format' => 'json',
         ];
 
-        $response = $this->_get($this->userOpenIdUrl, $params);
+        $response = $this->request('get', $this->userOpenIdUrl, $params);
 
         return $this->_jsonpToArray($response);
     }
@@ -65,12 +70,12 @@ class Qq extends Handler
         $params = [
             'grant_type' => 'authorization_code',
             'code' => $code,
-            'client_id' => $this->getConfig()->getClientId(),
-            'client_secret' => $this->getConfig()->getClientSecret(),
-            'redirect_uri' => $this->getConfig()->getRedirect(),
+            'client_id' => $this->config->getClientId(),
+            'client_secret' => $this->config->getClientSecret(),
+            'redirect_uri' => $this->config->getRedirect(),
         ];
 
-        $response = $this->_get($this->authoriteTokenUrl, $params);
+        $response = $this->request('get', $this->authoriteTokenUrl, $params);
 
         return $this->_toArray($response);
     }
@@ -89,18 +94,5 @@ class Qq extends Handler
         parse_str($response, $params);
 
         return $params;
-    }
-
-    private function _get($url, $params)
-    {
-        $options = [
-            'query' => $params,
-            'verify' => false,
-        ];
-
-        $client = new Client();
-        $response = $client->get($url, $options)->getBody()->getContents();
-
-        return $response;
     }
 }
