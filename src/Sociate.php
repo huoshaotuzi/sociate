@@ -37,7 +37,7 @@ class Sociate
      */
     public function driver($driver)
     {
-        $className = 'Huoshaotuzi\\Sociate\\Driver\\'.ucwords(strtolower($driver));
+        $className = 'Huoshaotuzi\\Sociate\\Driver\\' . ucwords(strtolower($driver));
         $this->_driver = $driver;
 
         $this->_checkDriverSupport();
@@ -45,26 +45,6 @@ class Sociate
         $this->_class = new $className();
 
         return $this;
-    }
-
-    /**
-     * 获取支持的所有平台.
-     *
-     * @return array
-     */
-    public function getSupport()
-    {
-        return $this->_support;
-    }
-
-    /**
-     * 获取当前平台名称.
-     *
-     * @return string
-     */
-    public function getDriver()
-    {
-        return $this->_driver;
     }
 
     /**
@@ -127,9 +107,10 @@ class Sociate
     private function _checkDriverSupport()
     {
         $driver = strtolower($this->_driver);
+        $support = implode(',', $this->_support);
 
         if (!in_array($driver, $this->_support)) {
-            throw new DriverNotSupportException("暂不支持 {$driver} 平台,使用getSupport()方法可查询所有支持平台");
+            throw new DriverNotSupportException("暂不支持 {$driver} 平台,当前版本仅支持 {$support}");
         }
     }
 }
