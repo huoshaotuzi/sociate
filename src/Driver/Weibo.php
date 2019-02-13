@@ -12,6 +12,11 @@ class Weibo extends Driver
     protected $authoriteTokenUrl = 'https://api.weibo.com/oauth2/access_token';
     protected $userInfoUrl = 'https://api.weibo.com/2/users/show.json';
 
+    public function __construct()
+    {
+        $this->config = new Config($this->name);
+    }
+
     public function getAuthoriteCodeUrl($state = '')
     {
         $params = [
@@ -23,7 +28,7 @@ class Weibo extends Driver
 
         return $this->authoriteCodeUrl . '?' . http_build_query($params);
     }
-    
+
     public function getUser($response)
     {
         $params = [
