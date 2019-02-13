@@ -36,7 +36,9 @@ class Weibo extends Driver
             'uid' => $response['uid'],
         ];
 
-        return $this->request('get', $this->userInfoUrl, $params);
+        $response = $this->request('get', $this->userInfoUrl, $params);
+
+        return json_decode($response, true);
     }
 
     public function getAccessToken()
@@ -50,6 +52,8 @@ class Weibo extends Driver
             'redirect_uri' => $this->config->getRedirect(),
         ];
 
-        return $this->request('post', $this->authoriteTokenUrl, $params);
+        $response = $this->request('post', $this->authoriteTokenUrl, $params);
+
+        return json_decode($response, true);
     }
 }

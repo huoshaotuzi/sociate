@@ -2,7 +2,7 @@
 
 namespace Huoshaotuzi\Sociate;
 
-use Guzzle\Client;
+use GuzzleHttp\Client;
 
 abstract class Driver
 {
