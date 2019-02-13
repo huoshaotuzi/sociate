@@ -25,9 +25,12 @@ class Qq extends Handler
         $params = [
             'access_token' => $response['access_token'],
             'openid' => $me['openid'],
+            'oauth_consumer_key' => $this->getConfig()->getClientId(),
         ];
 
-        return $this->_get($this->userInfoUrl, $params);
+        $response = $this->_get($this->userInfoUrl, $params);
+
+        return json_decode($response, true);
     }
 
     /**
@@ -41,9 +44,49 @@ class Qq extends Handler
     {
         $params = [
             'access_token' => $token,
+            'format' => 'json',
         ];
 
-        return $this->_get($this->userOpenIdUrl, $params);
+        $response = $this->_get($this->userOpenIdUrl, $params);
+
+        return $this->_jsonpToArray($response);
+    }
+
+    /**
+     * 获取access token.
+     *
+     * @return array
+     */
+    public function getAccessToken()
+    {
+        $code = request('code');
+        $params = [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'client_id' => $this->getConfig()->getClientId(),
+            'client_secret' => $this->getConfig()->getClientSecret(),
+            'redirect_uri' => $this->getConfig()->getRedirect(),
+        ];
+
+        $response = $this->_get($this->authoriteTokenUrl, $params);
+
+        return $this->_toArray($response);
+    }
+
+    private function _jsonpToArray($response)
+    {
+        $start = strpos($response, '{');
+        $end = strpos($response, '}');
+        $jsonStr = substr($response, $start, $end - $start + 1);
+
+        return json_decode($jsonStr, true);
+    }
+
+    private function _toArray($response)
+    {
+        parse_str($response, $params);
+
+        return $params;
     }
 
     private function _get($url, $params)
@@ -56,6 +99,6 @@ class Qq extends Handler
         $client = new Client();
         $response = $client->get($url, $options)->getBody()->getContents();
 
-        return json_decode($response, true);
+        return $response;
     }
 }
