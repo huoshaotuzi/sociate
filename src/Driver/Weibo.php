@@ -12,6 +12,18 @@ class Weibo extends Driver
     protected $authoriteTokenUrl = 'https://api.weibo.com/oauth2/access_token';
     protected $userInfoUrl = 'https://api.weibo.com/2/users/show.json';
 
+    public function getAuthoriteCodeUrl($state = '')
+    {
+        $params = [
+            'client_id' => $this->config->getClientId(),
+            'response_type' => 'code',
+            'redirect_uri' => $this->config->getRedirect(),
+            'state' => $state,
+        ];
+
+        return $this->authoriteCodeUrl . '?' . http_build_query($params);
+    }
+    
     public function getUser($response)
     {
         $params = [

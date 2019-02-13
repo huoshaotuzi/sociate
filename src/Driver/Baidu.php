@@ -17,6 +17,18 @@ class Baidu extends Driver
         $this->config = new Config($this->name);
     }
 
+    public function getAuthoriteCodeUrl($state = '')
+    {
+        $params = [
+            'client_id' => $this->config->getClientId(),
+            'response_type' => 'code',
+            'redirect_uri' => $this->config->getRedirect(),
+            'state' => $state,
+        ];
+
+        return $this->authoriteCodeUrl . '?' . http_build_query($params);
+    }
+
     public function getUser($response)
     {
         $params = ['access_token' => $response['access_token']];
