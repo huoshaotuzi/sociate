@@ -2,8 +2,8 @@
 
 namespace Huoshaotuzi\Sociate\Driver;
 
-use GuzzleHttp\Client;
 use Huoshaotuzi\Sociate\Driver;
+use Huoshaotuzi\Sociate\Config;
 
 class Weibo extends Driver
 {

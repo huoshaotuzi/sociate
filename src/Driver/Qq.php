@@ -2,8 +2,8 @@
 
 namespace Huoshaotuzi\Sociate\Driver;
 
-use GuzzleHttp\Client;
 use Huoshaotuzi\Sociate\Driver;
+use Huoshaotuzi\Sociate\Config;
 
 class Qq extends Driver
 {
@@ -89,7 +89,7 @@ class Qq extends Driver
 
         $response = $this->request('get', $this->authoriteTokenUrl, $params);
 
-        return $this->_toArray($response);
+        return $this->_queryToArray($response);
     }
 
     private function _jsonpToArray($response)
@@ -101,7 +101,7 @@ class Qq extends Driver
         return json_decode($jsonStr, true);
     }
 
-    private function _toArray($response)
+    private function _queryToArray($response)
     {
         parse_str($response, $params);
 
