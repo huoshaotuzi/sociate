@@ -29,8 +29,9 @@ class Qq extends Handler
         ];
 
         $response = $this->_get($this->userInfoUrl, $params);
+        $info = json_decode($response, true);
 
-        return json_decode($response, true);
+        return array_merge(['openid' => $me['openid'], $info]);
     }
 
     /**
