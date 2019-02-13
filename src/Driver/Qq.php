@@ -18,10 +18,8 @@ class Qq extends Handler
      *
      * @return array
      */
-    public function getUser()
+    public function getUser($response)
     {
-        $code = request('code');
-        $response = $this->getAccessToken($code);
         $me = $this->getOpenId($response['access_token']);
 
         $params = [
