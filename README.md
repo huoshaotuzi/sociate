@@ -1,6 +1,6 @@
 # sociate for laravel
 基于 Laravel 开发的第三方登录插件,支持 QQ、新浪微博、百度登录。
-
+演示地址：[火兔游戏](http://huotuyouxi.com/login)
 # 安装
 ```
 composer require huoshaotuzi/sociate
@@ -129,7 +129,7 @@ class OauthController extends Controller
     // 授权回调页路由的方法
     public function qq()
     {
-        $sociate = new Socialite();
+        $sociate = new Sociate();
         $driver = $sociate->driver('qq');
         $accessToken = $driver->getAccessToken();
         $user = $driver->getUserInfo($accessToken);
