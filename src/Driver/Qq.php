@@ -68,7 +68,7 @@ class Qq extends Driver
 
         $response = $this->request('get', $this->userOpenIdUrl, $params);
 
-        return $this->_jsonpToArray($response);
+        return $this->jsonpToArray($response);
     }
 
     /**
@@ -89,22 +89,15 @@ class Qq extends Driver
 
         $response = $this->request('get', $this->authoriteTokenUrl, $params);
 
-        return $this->_queryToArray($response);
+        return $this->queryToArray($response);
     }
 
-    private function _jsonpToArray($response)
+    protected function jsonpToArray($response)
     {
         $start = strpos($response, '{');
         $end = strpos($response, '}');
         $jsonStr = substr($response, $start, $end - $start + 1);
 
         return json_decode($jsonStr, true);
-    }
-
-    private function _queryToArray($response)
-    {
-        parse_str($response, $params);
-
-        return $params;
     }
 }

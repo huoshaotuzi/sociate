@@ -12,7 +12,7 @@ class Sociate
      *
      * @var array
      */
-    private $_support = ['qq', 'weibo', 'baidu'];
+    private $_support = ['qq', 'weibo', 'baidu', 'github'];
 
     /**
      * 平台名称.
