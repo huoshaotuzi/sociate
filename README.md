@@ -1,6 +1,9 @@
 # sociate for laravel
-基于 Laravel 开发的第三方登录插件,支持 QQ、新浪微博、百度登录。
+基于 Laravel 开发的第三方登录插件,支持 QQ、新浪微博、百度、Github 登录。
 演示地址：[火兔游戏](http://huotuyouxi.com/login)
+# 更新记录
+- 2019-02-28 添加 Github 登录支持
+
 # 安装
 ```
 composer require huoshaotuzi/sociate
@@ -32,6 +35,10 @@ BAIDU_REDIRECT=
 WEIBO_KEY=
 WEIBO_SECRET=
 WEIBO_REDIRECT=
+
+GITHUB_KEY=
+GITHUB_SECRET=
+GITHUB_REDIRECT=
 ```
 
 `_KEY` 即 `APP_KEY`,不同平台的叫法可能不同;
@@ -92,6 +99,15 @@ public function qq()
     Auth::login($user, true);
     // 重定向到登录前页面
     return redirect(request('state'));
+}
+
+public function github()
+{
+    $driver = app('sociate')->driver('github');
+    $response = $driver->getAccessToken();
+    $info = $driver->getUserInfo($response);
+
+    dd($response, $info);
 }
 
 public function weibo()
