@@ -4,6 +4,7 @@ namespace Huoshaotuzi\Sociate\Driver;
 
 use Huoshaotuzi\Sociate\Config;
 use Huoshaotuzi\Sociate\Driver;
+use Huoshaotuzi\Sociate\Exception\DriverNotSupportException;
 
 class Wechat extends Driver
 {
@@ -17,17 +18,21 @@ class Wechat extends Driver
         $this->config = new Config($this->name);
     }
 
-    public function getAuthoriteCodeUrl($scope = 'snsapi_userinfo', $state = '')
+    public function getVerifyCodeUrl($scope, $state)
     {
         $params = [
             'appid' => $this->config->getClientId(),
             'redirect_uri' => $this->config->getRedirect(),
             'response_type' => 'code',
-            'scope' => 'snsapi_userinfo',
+            'scope' => $scope,
             'state' => $state,
         ];
 
         return $this->authoriteCodeUrl . '?' . http_build_query($params) . '#wechat_redirect';
+    }
+
+    public function getAuthoriteCodeUrl($state = '') {
+        throw new DriverNotSupportException('微信公众号不支持调用该方法，请使用 getVerifyUrl($scope, $state)。');
     }
 
     public function getAccessToken()

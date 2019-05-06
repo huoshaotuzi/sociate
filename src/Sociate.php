@@ -48,8 +48,24 @@ class Sociate
     }
 
     /**
-     * 获取平台引导登录链接.
+     * 微信公众号获取认证链接
      *
+     * @param scope 获取用户信息类型：snsapi_base、snsapi_userinfo
+     * @return string
+     */
+    public function getVerifyUrl($scope = 'snsapi_userinfo', $state = '')
+    {
+        $driver = $this->_driver;
+        if ($driver == 'wechat') {
+            return $this->_class->getVerifyCodeUrl($scope, $state);
+        } else {
+            throw new DriverNotSupportException("{$driver} 平台不支持调用该方法，仅支持 wechat。");
+        }
+    }
+
+    /**
+     * 获取平台引导登录链接.
+     * @param @state 自定义参数
      * @return string
      */
     public function getLoginUrl($state = '')
