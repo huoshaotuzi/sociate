@@ -1,6 +1,6 @@
 # sociate for laravel
-基于 Laravel 开发的第三方登录插件,
-支持 QQ、新浪微博、百度、Github、微信公众号登录（即授权获取用户信息）。
+基于 Laravel 开发的第三方登录插件,支持 QQ、新浪微博、百度、Github、微信公众号登录。
+
 演示地址：[火兔游戏](http://huotuyouxi.com/login)
 # 更新记录
 - 2019-05-06 支持微信公众号登录
@@ -19,12 +19,12 @@ composer require huoshaotuzi/sociate
 Huoshaotuzi\Sociate\SociateServiceProvider::class,
 ```
 
-发布配置文件到 `config` 文件夹,这一步也可以不操作:
+发布配置文件到 `config` 目录下:
 ```
 php artisan vendor:publish --provider="Huoshaotuzi\Sociate\SociateServiceProvider"
 ```
 
-在 `.env` 文件添加第三方应用配置信息,目前支持QQ、新浪微博、百度登录,不需要的可以不用添加:
+在 `.env` 文件添加第三方应用配置信息,不需要的可以不用添加:
 ```
 QQ_KEY=
 QQ_SECRET=
@@ -48,7 +48,9 @@ WECHAT_REDIRECT=
 ```
 
 `*_KEY` 即 `APP_KEY`,不同平台的叫法可能不同,统称应用 ID,微信公众号为 `APPID`;
+
 `*_SECRET` 即 `SECRET`,一串随机的字符串,应用密匙,要注意该字段不能暴露给用户;
+
 `*_REDIRECT` 即授权回调页地址,百度与微博、微信公众号可以在配置应用自行设置, QQ 貌似不支持。
 
 以上,配置完成。
@@ -60,12 +62,14 @@ WECHAT_REDIRECT=
 微信公众号官方文档：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140842
 
 由于微信公众号比其他平台更复杂一点，因此在这里特别进行介绍，如果是刚入门的小白则可以快速入手。
+
 首先需要一个公众号，个人申请的订阅号无法开通获取用户的权限，因此这个公众号必须是服务号或者是已认证的订阅号。
 
 个人开发者或者本地测试时可以申请微信测试号，测试号可以测试公众号的各个接口，测试号申请地址：
 http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
 
 开发过程中一般要使用测试号进行开发，测试完毕没有问题的时候，产品上线阶段再修改配置文件的 `APP_ID` 和 `SECRET`。
+
 开发还需要下载微信 web 开发者工具，下载地址：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455784140
 
 值得一提的一点，在线上环境需要配置 IP 白名单，只有这个名单里的 IP 才允许调用接口，如果你的服务器使用了负载均衡，则需要把所有可能调用接口的机子的 IP 全部添加进去，最多允许添加 200 个。
@@ -76,17 +80,20 @@ http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
 以上准备完毕。
 
 公众号登录授权获取用户信息有两种，在传入 scope 参数时进行区分。
-参照官方说明。
+参照官方说明：
 
-```
 关于网页授权的两种scope的区别说明
-1、以snsapi_base为scope发起的网页授权，是用来获取进入页面的用户的openid的，并且是静默授权并自动跳转到回调页的。用户感知的就是直接进入了回调页（往往是业务页面）
-以snsapi_userinfo为scope发起的网页授权，是用来获取用户的基本信息的。但这种授权需要用户手动同意，并且由于用户同意过，所以无须关注，就可在授权后获取该用户的基本信息。
-```
+以snsapi_base为scope发起的网页授权，是用来获取进入页面的用户的openid的，并且是静默授权并自动跳转到回调页的。
+
+用户感知的就是直接进入了回调页（往往是业务页面）
+
+以snsapi_userinfo为scope发起的网页授权，是用来获取用户的基本信息的。
+
+但这种授权需要用户手动同意，并且由于用户同意过，所以无须关注，就可在授权后获取该用户的基本信息。
 
 本插件默认使用 snsapi_userinfo 参数。
 
-首先需要在 routes/web.php 创建两个路由地址：
+接下来进入开发流程,首先需要在 .env 文件配置你的应用信息，接着在 routes/web.php 创建两个路由地址：
 
 ```
 // 根据你实际的项目设置
