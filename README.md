@@ -72,8 +72,6 @@ http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
 
 开发还需要下载微信 web 开发者工具，下载地址：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455784140
 
-值得一提的一点，在线上环境需要配置 IP 白名单，只有这个名单里的 IP 才允许调用接口，如果你的服务器使用了负载均衡，则需要把所有可能调用接口的机子的 IP 全部添加进去，最多允许添加 200 个。
-
 参照官方说明。
 > 通过开发者ID及密码调用获取 access_token 接口时，需要设置访问来源IP为白名单。
 
