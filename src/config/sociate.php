@@ -20,4 +20,9 @@ return [
         'client_secret' => env('GITHUB_SECRET'),
         'redirect' => env('GITHUB_REDIRECT'),
     ],
+    'wechat' => [
+        'client_id' => env('WECHAT_KEY'),
+        'client_secret' => env('WECHAT_SECRET'),
+        'redirect' => env('WECHAT_REDIRECT'),
+    ],
 ];

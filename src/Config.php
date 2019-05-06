@@ -86,7 +86,6 @@ class Config
     private function _initParams($type)
     {
         $configs = config("sociate.{$type}");
-
         if (empty($configs)) {
             throw new ConfigException("{$type} 参数获取失败");
         }
