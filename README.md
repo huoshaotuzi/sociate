@@ -122,7 +122,9 @@ class TestController extends Controller
     public function test()
     {
         $class = new Sociate();
-        echo '<a href="' . $class->driver('wechat')->getVerifyUrl() . '">点击跳转</a>';
+        // 支持两个参数: getVerifyUrl($scpoe = 'snsapi_userinfo', $state = '')
+        $url = $class->driver('wechat')->getVerifyUrl();
+        echo '<a href="' . $url . '">点击跳转</a>';
     }
 
     public function auth()
